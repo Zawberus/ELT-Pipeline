@@ -9,17 +9,18 @@ Usage:
 """
 import os
 import sys
-import logging
 import pandas as pd
+from pathlib import Path 
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-python_folder = os.path.dirname(current_dir)
-if python_folder not in sys.path:
-    sys.path.append(python_folder)
+current_dir = Path(__file__).resolve().parent
+python_folder = current_dir.parent
+if str(python_folder) not in sys.path:
+    sys.path.append(str(python_folder))
 
 from extract.read_csv_files import read_source_file
+from utils.logger import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger(__name__.split(".")[-1])
 
 # Expected columns per source table (after header normalization: stripped + lowered).
 # These match what the bronze layer expects.
